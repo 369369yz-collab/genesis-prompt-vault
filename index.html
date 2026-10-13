@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>GENESIS Prompt Vault — Crypto Checkout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f4f4f1;
+        --surface: #ffffff;
+        --surface-2: #ececea;
+        --ink: #131416;
+        --ink-soft: #4c4f54;
+        --line: #d8d8d2;
+        --red: #d92323;
+        --red-ink: #b91c1c;
+        --ok: #177245;
+        --mono-bg: #131416;
+        --mono-ink: #f2f2ee;
+        --shadow: 0 18px 40px -18px rgba(19, 20, 22, .28);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0c0e;
+          --surface: #141518;
+          --surface-2: #1b1c1f;
+          --ink: #f2f2ee;
+          --ink-soft: #a7a9ad;
+          --line: #2a2b2e;
+          --red: #ff3b30;
+          --red-ink: #ff6b62;
+          --ok: #4ade80;
+          --mono-bg: #000000;
+          --mono-ink: #f2f2ee;
+          --shadow: 0 18px 40px -18px rgba(0, 0, 0, .7);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Archivo", system-ui, -apple-system, sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px 72px; }
+
+      /* ---------- Hero ---------- */
+      .hero { padding: 44px 0 34px; border-bottom: 3px solid var(--ink); }
+      .brand-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+      .brand {
+        font-family: "Anton", sans-serif; font-size: 15px; letter-spacing: .34em;
+        color: var(--red-ink); text-transform: uppercase;
+      }
+      .brand-sub { font-size: 13px; color: var(--ink-soft); letter-spacing: .08em; text-transform: uppercase; }
+      h1 {
+        font-family: "Anton", sans-serif; font-weight: 400;
+        font-size: clamp(44px, 8.5vw, 92px); line-height: .98;
+        text-transform: uppercase; margin: 18px 0 6px; letter-spacing: .01em;
+      }
+      h1 .accent { color: var(--red); }
+      .edition { font-family: "Anton", sans-serif; font-size: clamp(18px, 3vw, 26px); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 20px; }
+      .lede { max-width: 640px; font-size: 18px; color: var(--ink-soft); margin: 0 0 26px; }
+      .lede strong { color: var(--ink); }
+      .hero-cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+      .price-tag { display: flex; align-items: baseline; gap: 10px; }
+      .price-tag .amount { font-family: "Anton", sans-serif; font-size: 52px; line-height: 1; }
+      .price-tag .terms { font-size: 13px; color: var(--ink-soft); max-width: 130px; line-height: 1.35; }
+      .btn {
+        display: inline-block; border: 0; cursor: pointer; text-decoration: none;
+        font-family: "Archivo", sans-serif; font-weight: 700; font-size: 16px;
+        padding: 15px 26px; border-radius: 6px; transition: transform .12s ease, background .12s ease;
+      }
+      .btn-red { background: var(--red); color: #fff; box-shadow: var(--shadow); }
+      .btn-red:hover { transform: translateY(-2px); }
+      .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+      .btn-ghost:hover { background: var(--surface-2); }
+      .stat-row { display: flex; gap: 0; margin-top: 34px; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
+      .stat { flex: 1 1 140px; padding: 16px 18px; border-right: 1px solid var(--line); }
+      .stat:last-child { border-right: 0; }
+      .stat b { display: block; font-family: "Anton", sans-serif; font-weight: 400; font-size: 30px; line-height: 1; }
+      .stat span { font-size: 13px; color: var(--ink-soft); }
+
+      /* ---------- Sections ---------- */
+      section { padding: 44px 0 0; }
+      h2 {
+        font-family: "Anton", sans-serif; font-weight: 400; font-size: clamp(26px, 4.5vw, 38px);
+        text-transform: uppercase; margin: 0 0 8px; letter-spacing: .01em;
+      }
+      .section-sub { color: var(--ink-soft); max-width: 620px; margin: 0 0 24px; }
+
+      .modules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .module { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px; }
+      .module .m-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+      .module h3 { margin: 0; font-size: 17px; font-weight: 700; }
+      .module .count { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--red-ink); white-space: nowrap; }
+      .module p { margin: 8px 0 0; font-size: 14.5px; color: var(--ink-soft); }
+      .plus-row { margin-top: 14px; background: var(--surface-2); border: 1px dashed var(--line); border-radius: 8px; padding: 16px 20px; font-size: 15px; }
+      .plus-row strong { color: var(--red-ink); }
+
+      /* ---------- Checkout ---------- */
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+      .step { border-top: 4px solid var(--ink); padding-top: 12px; }
+      .step .n { font-family: "Anton", sans-serif; font-size: 15px; letter-spacing: .2em; color: var(--red-ink); }
+      .step h3 { margin: 4px 0 4px; font-size: 16px; }
+      .step p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+      .checkout-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; }
+      .coin-tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+      .coin-tab {
+        appearance: none; border: 0; background: transparent; cursor: pointer;
+        font-family: "Archivo", sans-serif; font-weight: 700; font-size: 15px; color: var(--ink-soft);
+        padding: 15px 20px; border-right: 1px solid var(--line); border-bottom: 3px solid transparent;
+      }
+      .coin-tab[aria-selected="true"] { background: var(--surface); color: var(--ink); border-bottom-color: var(--red); }
+      .coin-tab small { display: block; font-weight: 500; font-size: 11.5px; letter-spacing: .04em; }
+      .coin-panel { display: none; padding: 26px; }
+      .coin-panel.active { display: block; }
+      .panel-grid { display: grid; grid-template-columns: 1fr 220px; gap: 28px; align-items: start; }
+      .net-label { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-soft); margin: 0 0 6px; }
+      .amount-line { font-size: 17px; margin: 0 0 18px; }
+      .amount-line b { font-family: "JetBrains Mono", monospace; }
+      .addr-box {
+        background: var(--mono-bg); color: var(--mono-ink); border-radius: 8px;
+        padding: 16px; font-family: "JetBrains Mono", monospace; font-size: 14.5px;
+        word-break: break-all; line-height: 1.6;
+      }
+      .addr-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+      .copy-btn {
+        appearance: none; cursor: pointer; border: 2px solid var(--ink); background: var(--ink); color: var(--bg);
+        font-family: "Archivo", sans-serif; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 6px;
+      }
+      .copy-btn.copied { background: var(--ok); border-color: var(--ok); color: #fff; }
+      .explorer-link { align-self: center; font-size: 14px; font-weight: 600; color: var(--red-ink); }
+      .warn {
+        margin-top: 18px; border: 1px solid var(--line); border-left: 5px solid var(--red);
+        background: var(--surface-2); border-radius: 6px; padding: 12px 16px; font-size: 14px;
+      }
+      .warn strong { color: var(--red-ink); }
+      .qr { text-align: center; }
+      .qr img { width: 200px; height: 200px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+      .qr figcaption { font-size: 12.5px; color: var(--ink-soft); margin-top: 8px; }
+
+      /* ---------- Claim ---------- */
+      .claim-card { margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 26px; }
+      .claim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+      .field input, .field select {
+        width: 100%; padding: 13px 14px; font: inherit; font-size: 15px;
+        border: 1.5px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);
+      }
+      .field input:focus, .field select:focus { outline: 2px solid var(--red); outline-offset: 1px; border-color: transparent; }
+      .field .hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 5px; }
+      .field.full { grid-column: 1 / -1; }
+      .claim-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; align-items: center; }
+      .form-error { display: none; color: var(--red-ink); font-weight: 600; font-size: 14.5px; }
+      .form-error.show { display: block; }
+      .claim-note { font-size: 13.5px; color: var(--ink-soft); margin-top: 14px; }
+      .step-btn { padding: 9px 16px; font-size: 14px; margin-top: 12px; }
+      .claim-alt { display: flex; align-items: center; gap: 14px; margin: 26px 0 18px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+      .claim-alt::before, .claim-alt::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+
+      /* ---------- Assurances / footer ---------- */
+      .assure { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+      .assure div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+      .assure b { display: block; font-size: 15px; margin-bottom: 4px; }
+      .assure p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+      footer { margin-top: 52px; border-top: 3px solid var(--ink); padding-top: 20px; font-size: 14px; color: var(--ink-soft); }
+      footer .honest { max-width: 640px; }
+      footer .sig { font-family: "Anton", sans-serif; letter-spacing: .3em; color: var(--ink); margin-top: 14px; font-size: 14px; }
+
+      @media (max-width: 760px) {
+        .modules, .steps, .claim-grid { grid-template-columns: 1fr; }
+        .assure { grid-template-columns: repeat(2, 1fr); }
+        .panel-grid { grid-template-columns: 1fr; }
+        .qr { order: -1; }
+        .coin-tab { flex: 1 1 33%; padding: 12px 8px; text-align: center; }
+        .stat { flex: 1 1 45%; border-bottom: 1px solid var(--line); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .btn-red:hover { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <!-- ============ HERO ============ -->
+      <header class="hero">
+        <div class="brand-row">
+          <span class="brand">Genesis</span>
+          <span class="brand-sub">Creator tools · Direct crypto checkout</span>
+        </div>
+        <h1>Stop staring at<br />the <span class="accent">blank</span> chat box.</h1>
+        <p class="edition">GENESIS Prompt Vault — Creator Edition</p>
+        <p class="lede">
+          <strong>245 copy-paste prompts</strong> that turn AI into your content-production assistant —
+          hooks, reel scripts, captions, image prompts, research, and repurposing.
+          Fill in the brackets. Get to work. No account, no card, no sign-up form:
+          you pay in crypto, straight from your own wallet, and the Vault lands in your inbox.
+        </p>
+        <div class="hero-cta">
+          <div class="price-tag">
+            <span class="amount">$29</span>
+            <span class="terms">one-time payment · yours to keep</span>
+          </div>
+          <a class="btn btn-red" href="#checkout">Get the Vault — pay with crypto</a>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><b>245</b><span>production prompts</span></div>
+          <div class="stat"><b>6</b><span>modules, Markdown + JSON</span></div>
+          <div class="stat"><b>20</b><span>worked prompt → result examples</span></div>
+          <div class="stat"><b>1</b><span>Playbook — Claude, GPT-5 &amp; Gemini notes</span></div>
+        </div>
+      </header>
+
+      <!-- ============ WHAT'S INSIDE ============ -->
+      <section aria-labelledby="inside-h">
+        <h2 id="inside-h">What's inside</h2>
+        <p class="section-sub">Every prompt encodes a production formula — the structures professional content teams use — with <strong>[BRACKETED]</strong> slots for your specifics. You bring the idea. The vault brings the structure.</p>
+        <div class="modules">
+          <article class="module">
+            <div class="m-head"><h3>Hooks &amp; Openers</h3><span class="count">60 prompts</span></div>
+            <p>Fifteen hook formulas — curiosity gaps, contrarian openers, confessions, pain-point hooks, rankings, open loops — plus hook testing, A/B picking, and platform adaptation.</p>
+          </article>
+          <article class="module">
+            <div class="m-head"><h3>Reel / Short Scripts</h3><span class="count">35 prompts</span></div>
+            <p>Shot-by-shot script builders: tutorials, stories, myth-busts, comparisons, listicles, reactions, series episodes — with timing rules, retention planning, and a hostile final QA pass.</p>
+          </article>
+          <article class="module">
+            <div class="m-head"><h3>Captions &amp; CTAs</h3><span class="count">40 prompts</span></div>
+            <p>Caption structures for reels, carousels, stories, and YouTube. The one-CTA rule. Save/share/comment engineering. Hashtag sets, DM funnel copy, and an AI-tells scrubber.</p>
+          </article>
+          <article class="module">
+            <div class="m-head"><h3>Image-Generation Prompts</h3><span class="count">40 prompts</span></div>
+            <p>Full prompt anatomy — subject → environment → lighting → style → camera → quality — with no-text guards, negative prompts, brand-lock blocks, and thumbnail builders.</p>
+          </article>
+          <article class="module">
+            <div class="m-head"><h3>Ideation &amp; Research</h3><span class="count">40 prompts</span></div>
+            <p>Topic mining, audience research, competitor teardowns, trend assessment, idea scoring — and a real research workflow with honesty rules: real numbers only, verified quotes only.</p>
+          </article>
+          <article class="module">
+            <div class="m-head"><h3>Repurposing</h3><span class="count">30 prompts</span></div>
+            <p>One pillar into a week of content: long video → shorts, carousels, threads, newsletters, quote graphics, checklists — each rewritten native to its platform, never copy-pasted.</p>
+          </article>
+        </div>
+        <p class="plus-row"><strong>Plus:</strong> 20 fully worked prompt → result examples, and the Playbook — model-specific notes for Claude, GPT-5, and Gemini, three start-to-finish workflows, and the honesty rules.</p>
+      </section>
+
+      <!-- ============ CHECKOUT ============ -->
+      <section id="checkout" aria-labelledby="checkout-h">
+        <h2 id="checkout-h">Checkout — pay with crypto</h2>
+        <p class="section-sub">No marketplace, no payment processor, no personal data handed to a platform. Three steps, wallet to inbox.</p>
+
+        <div class="steps">
+          <div class="step">
+            <span class="n">Step 1</span>
+            <h3>Pick your coin</h3>
+            <p>Choose a currency below and copy the address — or scan the QR code with your wallet app.</p>
+          </div>
+          <div class="step">
+            <span class="n">Step 2</span>
+            <h3>Send $29 worth</h3>
+            <p>Send the equivalent of $29 USD from your own wallet or exchange. Double-check the network before you send. Then submit your payment details so we can match and deliver your order:</p>
+            <a class="btn btn-ghost step-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSev14jcqQ-lIDGkZISX25gUIrpCjTotDZWc7HOGJcItvET7Lw/viewform" target="_blank" rel="noopener">Submit your payment</a>
+          </div>
+          <div class="step">
+            <span class="n">Step 3</span>
+            <h3>Claim your Vault</h3>
+            <p>Fill in the order form with the transaction hash and your delivery email. The ZIP + SHA256 manifest arrives by email once the payment confirms.</p>
+          </div>
+        </div>
+
+        <div class="checkout-card">
+          <div class="coin-tabs" role="tablist" aria-label="Payment currency">
+            <button class="coin-tab" role="tab" id="tab-eth" aria-controls="panel-eth" aria-selected="true" data-coin="eth">ETH<small>Ethereum</small></button>
+            <button class="coin-tab" role="tab" id="tab-usdt" aria-controls="panel-usdt" aria-selected="false" data-coin="usdt">USDT<small>Tether · ERC-20</small></button>
+            <button class="coin-tab" role="tab" id="tab-btc" aria-controls="panel-btc" aria-selected="false" data-coin="btc">BTC<small>Bitcoin</small></button>
+            <button class="coin-tab" role="tab" id="tab-sol" aria-controls="panel-sol" aria-selected="false" data-coin="sol">SOL<small>Solana</small></button>
+            <button class="coin-tab" role="tab" id="tab-trx" aria-controls="panel-trx" aria-selected="false" data-coin="trx">TRX<small>Tron</small></button>
+            <button class="coin-tab" role="tab" id="tab-xlm" aria-controls="panel-xlm" aria-selected="false" data-coin="xlm">XLM<small>Stellar</small></button>
+          </div>
+
+          <!-- ETH -->
+          <div class="coin-panel active" role="tabpanel" id="panel-eth" aria-labelledby="tab-eth">
+            <div class="panel-grid">
+              <div>
+                <p class="net-label">Network · Ethereum mainnet (ERC-20)</p>
+                <p class="amount-line">Send <b>$29 worth of ETH</b> — check the live rate in your wallet at send time.</p>
+                <div class="addr-box" data-address>0xA0A1ff293EF2FF051121674c8eAAd69570b25e6c</div>
+                <div class="addr-actions">
+                  <button class="copy-btn" type="button">Copy address</button>
+                  <a class="explorer-link" href="https://etherscan.io/address/0xA0A1ff293EF2FF051121674c8eAAd69570b25e6c" target="_blank" rel="noopener">Verify on Etherscan ↗</a>
+                </div>
+                <div class="warn"><strong>Ethereum mainnet only.</strong> Do not send via Arbitrum, Base, BSC, or any other chain — funds sent on the wrong network can't be recovered or credited.</div>
+              </div>
+              <figure class="qr">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYwAAAGMCAIAAABGWwIdAAAHfklEQVR4nO3dwY0TQRRFUYwmARYsyD84FiwIocnAKomaP7e6zwnAtNvDVW2e6nVd1zeAqu9f/QAA74gUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQJlJA2seuD/rx89eujzrO3z+/t3zOrne463kmrXz3yfdc+01PtOsdOkkBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQtm27t+Kum7JJk+9w18at9jmT/9YK/y/ec5IC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIA0kQLSRApIEykgbXS7t2JyE1TbwU1+zorapqy275v05N/dSQpIEykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIC03HaPjsm752r3G05+d95zkgLSRApIEykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSDNdi9k171yu0zeczfpxGd+MicpIE2kgDSRAtJECkgTKSBNpIA0kQLSRApIEykgTaSANJEC0nLbPZup9yb3dJOfs8vK85z4N3biM+/iJAWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkDa6HZvcsN1Vyfu8p78OSv8v3jPSQpIEykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIC013VdX/0Mj7Brn3XX+9dqW7m7vucTOUkBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQtm27N3nfWc2Jm7LJLWHtN63d31dT2y06SQFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWkiBaSJFJD26Hv3JvdZkzuv2jPXtmC1737inYyTv7uTFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWmj9+5Nqt1Pd6LavXJ33abVtnu1PaaTFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWmj9+7V7jvbpXb/2ora7mxF7W/jxF1n7Q7EFU5SQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpB15715tB7dLbVf15Hf45LvwattYJykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIA0kQLSPib/sdo2bcXkTnByL1bbZ+1y4uaO95ykgDSRAtJECkgTKSBNpIA0kQLSRApIEykgTaSANJEC0kQKSDvy3r27evJWbtLkHnNyR3nXPaaTFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWnbtnsrJjdKu5y4dZrccNXuuZt04r5vRW0D6CQFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQJlJA2m3v3avtmGp7w9rm7sT38+S/sRW73o+TFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWkfX/0An6W2Tdtl8nkmN26T/1btc2pbwhWTO0EnKSBNpIA0kQLSRApIEykgTaSANJEC0kQKSBMpIE2kgDSRAtJG7907cVdV20xNqt2Ft+LE3/3E9zzJSQpIEykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIC02967t6K2z3ryJrH2PCtqdzvuep7ab+EkBaSJFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQNqR273a5m7Frj3ditrn7FLblO1y4t/YJCcpIE2kgDSRAtJECkgTKSBNpIA0kQLSRApIEykgTaSANJEC0l7XdX31MzzCXXdnNZPbtNq9hCtq90iucJIC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIA0kQLSRApIEykgbdu9eyfe57XLykbprvcATn7Oitrdc3f97pO7RScpIE2kgDSRAtJECkgTKSBNpIA0kQLSRApIEykgTaSANJEC0rbdu3fXe+Um92sralu5J99zV3ueFbW/1RVOUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWkiBaRtu3dvl7tuwWp2bdNqW8JJtbsma3cO7uIkBaSJFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQFpuu/dktR3cifu+yWfepfbda/s+JykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIA0kQLSbPduaHJ7Vdt5TbrrtnHF5LbRSQpIEykgTaSANJEC0kQKSBMpIE2kgDSRAtJECkgTKSBNpIC013VdWz5o8j64SSd+r9o+q/YOa++npvZ7OUkBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQNnrvnjva/t+ue9xW1DZcu0y+nxWT9+WtqP2mTlJAmkgBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkbbt3D+AzOEkBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQJlJAmkgBaSIFpIkUkCZSQJpIAWkiBaSJFJAmUkCaSAFpIgWkiRSQ9g/NcE1i1ZoZWAAAAABJRU5ErkJggg==" alt="QR code for the GENESIS Ethereum payment address" />
+                <figcaption>Scan with your wallet app</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- USDT -->
+          <div class="coin-panel" role="tabpanel" id="panel-usdt" aria-labelledby="tab-usdt">
+            <div class="panel-grid">
+              <div>
+                <p class="net-label">Network · Ethereum mainnet (ERC-20)</p>
+                <p class="amount-line">Send exactly <b>29 USDT</b>.</p>
+                <div class="addr-box" data-address>0xA0A1ff293EF2FF051121674c8eAAd69570b25e6c</div>
+                <div class="addr-actions">
+                  <button class="copy-btn" type="button">Copy address</button>
+                  <a class="explorer-link" href="https://etherscan.io/address/0xA0A1ff293EF2FF051121674c8eAAd69570b25e6c" target="_blank" rel="noopener">Verify on Etherscan ↗</a>
+                </div>
+                <div class="warn"><strong>ERC-20 USDT only</strong> — the Ethereum version of Tether. Do not send TRC-20, BEP-20, or any other network's USDT to this address.</div>
+              </div>
+              <figure class="qr">
+                <img src="data:image/png;base64,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" alt="QR code for the GENESIS Ethereum payment address (also used for USDT ERC-20)" />
+                <figcaption>Same address as ETH — scan with your wallet app</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- BTC -->
+          <div class="coin-panel" role="tabpanel" id="panel-btc" aria-labelledby="tab-btc">
+            <div class="panel-grid">
+              <div>
+                <p class="net-label">Network · Bitcoin (native SegWit)</p>
+                <p class="amount-line">Send <b>$29 worth of BTC</b> — check the live rate in your wallet at send time.</p>
+                <div class="addr-box" data-address>bc1qywz9t06pdckrtp3uy2hfkf6qcc2agj6m2fmj5c</div>
+                <div class="addr-actions">
+                  <button class="copy-btn" type="button">Copy address</button>
+                  <a class="explorer-link" href="https://blockstream.info/address/bc1qywz9t06pdckrtp3uy2hfkf6qcc2agj6m2fmj5c" target="_blank" rel="noopener">Verify on Blockstream ↗</a>
+                </div>
+                <div class="warn"><strong>Bitcoin network only.</strong> Delivery follows the first on-chain confirmation — usually 10–60 minutes depending on network fees.</div>
+              </div>
+              <figure class="qr">
+                <img src="data:image/png;base64,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" alt="QR code for the GENESIS Bitcoin payment address" />
+                <figcaption>Scan with your wallet app</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- SOL -->
+          <div class="coin-panel" role="tabpanel" id="panel-sol" aria-labelledby="tab-sol">
+            <div class="panel-grid">
+              <div>
+                <p class="net-label">Network · Solana</p>
+                <p class="amount-line">Send <b>$29 worth of SOL</b> — check the live rate in your wallet at send time.</p>
+                <div class="addr-box" data-address>GEJZgy2jid1UCG3N4VSnbNSKsNz1n1HtwzYg3H7YXSWW</div>
+                <div class="addr-actions">
+                  <button class="copy-btn" type="button">Copy address</button>
+                  <a class="explorer-link" href="https://solscan.io/account/GEJZgy2jid1UCG3N4VSnbNSKsNz1n1HtwzYg3H7YXSWW" target="_blank" rel="noopener">Verify on Solscan ↗</a>
+                </div>
+                <div class="warn"><strong>Solana network only.</strong> Confirmations are fast — usually under a minute.</div>
+              </div>
+              <figure class="qr">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8CAIAAAAq0oeIAAAI+UlEQVR4nO3dMZLsNBRAUYb6GyAgYP+LIyBgCSYmAd36Ks2T+5x4yi173LeUvNbX8zy/ALDm1+9eAMBNRBMgEE2AQDQBAtEECEQTIBBNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgEA0AQLRBAhEEyAQTYDgx64L/fb7H7sudZ2///rzf/9m1/OZ9lm7rKz5xnt/63putOsZ2mkCBKIJEIgmQCCaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAsG32fMXJWeZdps0On3Ty3s2V//xn7bqvT35XV9hpAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQHB09nzFyRnSt57rPe06u5xcz43P56Rp//eT7DQBAtEECEQTIBBNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgGDd7/lY3zk3vMu288ht98r1PY6cJEIgmQCCaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgdnzF9o1p+zM7ruuYz79DDtNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECMbNnr91fnbXWeQn58GnnY1+ckZ72nOe9jsAb/2errDTBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgODo7Pm0+dlPdnIWftec8rQZ7Wnr2eXGNZ9kpwkQiCZAIJoAgWgCBKIJEIgmQCCaAIFoAgSiCRCIJkAgmgDB1/M8370GvsGNs+c3mjYLz8+z0wQIRBMgEE2AQDQBAtEECEQTIBBNgEA0AQLRBAhEEyAQTYBg27nnb51l3jU7fOOaT/5Pdzm5nrfOep/8Dt7YDTtNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECLbNnp90cs70k2dsp5k2577Lyfs6+Xxu/O2CFXaaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEGybPZ82N33jrPe0Gdu3nle+y7Tz5ac5+f06+W7YaQIEogkQiCZAIJoAgWgCBKIJEIgmQCCaAIFoAgSiCRCIJkDw9TzPlgtNm9GeNld+0q453Buf4Y3z8tNmq2/8nq7YdV92mgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQCCaAIFoAgSiCRAcnT1/q7fO6r7Vjc9w2ju267NWTPsNBDtNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECLbNnt/oxvPTb5xPn3Y++Fuvs+LkGfQrTn53drHTBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgODHrgt98izzLtPO2uaMae/qtO/yCueeAwwlmgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQCCaAIFoAgTbZs+nzcbumjM9eebyyTncXabN76+Ytp4Vbz2HfcW0/5edJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQCCaAIFoAgRfz/N89xr+Zdqc6YqT8+m7TJtPX3HyNwd2PZ+T8+ArTn7Wimkz9SvsNAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgEA0AQLRBAhEEyDYdu75jWeRT5vDXTFtZnxlPdOe87TfN5g2Wz3NtP+XnSZAIJoAgWgCBKIJEIgmQCCaAIFoAgSiCRCIJkAgmgCBaAIE22bPV9x4vvO0md+Taz4583vjc97lxnf15LnwK06+q3aaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEBydPd9l2hnr085lXjFtzdNmq1fsWs9bzys/6eQztNMECEQTIBBNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2A4Ojs+bQzu6fNlU87A/rGefAbnZxhn/Y+T/u+r7DTBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgGDb7Pm086Z3XefkPLhztM+Y9nxOzoxPm+PexbnnAEOJJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQCCaAMHX8zxbLjTtPOUVb13ztM+atuYV035LYdpz3uXGe7fTBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgGDcuee7zgff5eSZ1Cfv68aZ312mreetTr4bzj0HGEo0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECF577vlb13NyHnzadXa58Rz2t7rxdwDsNAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgEA0AQLRBAhEEyDYNnvOf5s2g3zjbPWN8/LTns8un/x87DQBAtEECEQTIBBNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMguPLc82mmzdie9Mn3vsu0WfiT/9OTv4Fg9hzgG4gmQCCaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAwY+TH3byXOZdTs7YTpvRnrZm6/l5N34HV5y8LztNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AQDQBAtEECI7Onq+YNjt8o7eeWz1tjnvXeqZdZ5qTZ5qvsNMECEQTIBBNgEA0AQLRBAhEEyAQTYBANAEC0QQIRBMgEE2AYNzsOf9t11z5jXP3J+992nVWnFzzSdOes50mQCCaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBGbPD7lxlnnFtPWcNG2ufJdp7+G0WXg7TYBANAEC0QQIRBMgEE2AQDQBAtEECEQTIBBNgEA0AQLRBAjGzZ6/dU755HnT0+bBp80O71rPtPPKd33WNNOaYKcJEIgmQCCaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAwdHZ8xvnXne58dzqXZ+1YmU9N87Ur6zn5P9rxbT1rDj5bthpAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQPD1PM93rwHgGnaaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEIgmQCCaAIFoAgSiCRCIJkAgmgCBaAIEogkQiCZAIJoAgWgCBKIJEPwDLf/k0iyqHz4AAAAASUVORK5CYII=" alt="QR code for the GENESIS Solana payment address" />
+                <figcaption>Scan with your wallet app</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- TRX -->
+          <div class="coin-panel" role="tabpanel" id="panel-trx" aria-labelledby="tab-trx">
+            <div class="panel-grid">
+              <div>
+                <p class="net-label">Network · Tron mainnet</p>
+                <p class="amount-line">Send <b>$29 worth of TRX</b> — check the live rate in your wallet at send time.</p>
+                <div class="addr-box" data-address>TPnMXb3rM1qUvbTwUSjzPnmoxD6SXjkPbp</div>
+                <div class="addr-actions">
+                  <button class="copy-btn" type="button">Copy address</button>
+                  <a class="explorer-link" href="https://tronscan.org/#/address/TPnMXb3rM1qUvbTwUSjzPnmoxD6SXjkPbp" target="_blank" rel="noopener">Verify on Tronscan ↗</a>
+                </div>
+                <div class="warn"><strong>Tron mainnet only.</strong> Send TRX itself to this address (not tokens on another chain).</div>
+              </div>
+              <figure class="qr">
+                <img src="data:image/png;base64,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" alt="QR code for the GENESIS Tron payment address" />
+                <figcaption>Scan with your wallet app</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- XLM -->
+          <div class="coin-panel" role="tabpanel" id="panel-xlm" aria-labelledby="tab-xlm">
+            <div class="panel-grid">
+              <div>
+                <p class="net-label">Network · Stellar</p>
+                <p class="amount-line">Send <b>$29 worth of XLM</b> — check the live rate in your wallet at send time.</p>
+                <div class="addr-box" data-address>GBRRQ64HFKANPNND7JAAI6DWA3HY3D7BL6V25HET3I2R5XPJVW53G554</div>
+                <div class="addr-actions">
+                  <button class="copy-btn" type="button">Copy address</button>
+                  <a class="explorer-link" href="https://stellar.expert/explorer/public/account/GBRRQ64HFKANPNND7JAAI6DWA3HY3D7BL6V25HET3I2R5XPJVW53G554" target="_blank" rel="noopener">Verify on Stellar Expert ↗</a>
+                </div>
+                <div class="warn"><strong>No memo needed</strong> — this is a personal wallet address, not an exchange deposit address. If your wallet insists on a memo field, you can leave it blank or enter any number; it isn't required.</div>
+              </div>
+              <figure class="qr">
+                <img src="data:image/png;base64,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" alt="QR code for the GENESIS Stellar payment address" />
+                <figcaption>Scan with your wallet app</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <!-- Claim -->
+        <div class="claim-card">
+          <h2 style="font-size: clamp(22px, 3.5vw, 30px);">Step 3 — Claim your Vault</h2>
+          <p class="section-sub" style="margin-bottom: 20px;">Paid? Submit your payment details — the currency you used, the transaction hash, and your delivery email — and the Vault ZIP + SHA256 manifest arrives by email once the payment confirms.</p>
+          <a class="btn btn-red" href="https://docs.google.com/forms/d/e/1FAIpQLSev14jcqQ-lIDGkZISX25gUIrpCjTotDZWc7HOGJcItvET7Lw/viewform" target="_blank" rel="noopener">Submit your payment</a>
+          <p class="claim-note">Opens the GENESIS order form in a new tab. It takes about a minute.</p>
+          <div class="claim-alt">or claim by email instead</div>
+          <form id="claim-form" novalidate>
+            <div class="claim-grid">
+              <div class="field">
+                <label for="f-coin">Currency you paid with</label>
+                <select id="f-coin">
+                  <option value="ETH">ETH — Ethereum</option>
+                  <option value="USDT">USDT — Tether (ERC-20)</option>
+                  <option value="BTC">BTC — Bitcoin</option>
+                  <option value="SOL">SOL — Solana</option>
+                  <option value="TRX">TRX — Tron</option>
+                  <option value="XLM">XLM — Stellar</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-email">Your email (delivery address)</label>
+                <input id="f-email" type="email" autocomplete="email" placeholder="you@example.com" />
+                <p class="hint">The ZIP and its SHA256 manifest are delivered here. It's the only personal detail we ever receive.</p>
+              </div>
+              <div class="field full">
+                <label for="f-tx">Transaction hash / ID</label>
+                <input id="f-tx" type="text" autocomplete="off" spellcheck="false" placeholder="Paste the transaction hash from your wallet or exchange" />
+                <p class="hint">We match this hash on-chain against the payment address to verify your order.</p>
+              </div>
+            </div>
+            <div class="claim-actions">
+              <button class="btn btn-red" type="submit">I've paid — send my Vault</button>
+              <button class="btn btn-ghost" type="button" id="copy-order">Copy order details instead</button>
+              <span class="form-error" id="form-error" role="alert"></span>
+            </div>
+            <p class="claim-note">Prefer to write it yourself? Email <strong>369369yz@gmail.com</strong> with your currency, transaction hash, and delivery email. Delivery follows payment confirmation; support replies within 48 hours.</p>
+          </form>
+        </div>
+
+        <div class="assure">
+          <div><b>7-day refund</b><p>No questions asked. Email within 7 days of purchase and you get your $29 back via the original rail.</p></div>
+          <div><b>Verifiable delivery</b><p>The ZIP ships with a SHA256 manifest, so you can verify every file before you unzip.</p></div>
+          <div><b>Single-seat license</b><p>Yours to use, adapt, and build on in your own work, forever. No DRM, no license keys, no phoning home.</p></div>
+          <div><b>14 days of updates</b><p>Prompt-drift updates included — new prompts and fixes shipped to your inbox for two weeks after purchase.</p></div>
+        </div>
+      </section>
+
+      <footer>
+        <p class="honest"><strong>GENESIS</strong> — tools built from real production work, labeled honestly. No fake testimonials, no countdown timers, no “only 3 left.” Just the vault. Payments go directly to the seller's own wallets — no intermediary ever holds your funds or your data.</p>
+        <p class="sig">GENESIS · 369</p>
+      </footer>
+
+    </div>
+
+    <script>
+      (function () {
+        var tabs = Array.prototype.slice.call(document.querySelectorAll(".coin-tab"));
+        var panels = {};
+        tabs.forEach(function (t) { panels[t.getAttribute("data-coin")] = document.getElementById("panel-" + t.getAttribute("data-coin")); });
+        var coinSelect = document.getElementById("f-coin");
+
+        function selectCoin(coin, focusPanel) {
+          tabs.forEach(function (t) { t.setAttribute("aria-selected", t.getAttribute("data-coin") === coin ? "true" : "false"); });
+          Object.keys(panels).forEach(function (k) { panels[k].classList.toggle("active", k === coin); });
+          if (coinSelect) coinSelect.value = coin.toUpperCase();
+          if (focusPanel && panels[coin]) panels[coin].setAttribute("tabindex", "-1"), panels[coin].focus({ preventScroll: true });
+        }
+        tabs.forEach(function (t) {
+          t.addEventListener("click", function () { selectCoin(t.getAttribute("data-coin"), false); });
+        });
+        if (coinSelect) {
+          coinSelect.addEventListener("change", function () { selectCoin(coinSelect.value.toLowerCase(), false); });
+        }
+
+        // Copy buttons
+        document.querySelectorAll(".coin-panel").forEach(function (panel) {
+          var btn = panel.querySelector(".copy-btn");
+          var box = panel.querySelector("[data-address]");
+          if (!btn || !box) return;
+          btn.addEventListener("click", function () {
+            var text = box.textContent.trim();
+            function done() {
+              var old = btn.textContent;
+              btn.textContent = "Copied ✓";
+              btn.classList.add("copied");
+              setTimeout(function () { btn.textContent = old; btn.classList.remove("copied"); }, 2000);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(done, function () { fallback(); });
+            } else { fallback(); }
+            function fallback() {
+              var ta = document.createElement("textarea");
+              ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+              document.body.appendChild(ta); ta.select();
+              try { document.execCommand("copy"); done(); } catch (e) {}
+              document.body.removeChild(ta);
+            }
+          });
+        });
+
+        // Claim form → pre-written email (mailto). Nothing is sent by the page itself.
+        var form = document.getElementById("claim-form");
+        var err = document.getElementById("form-error");
+        var ORDERS_EMAIL = "369369yz@gmail.com";
+
+        function orderDetails() {
+          var coin = coinSelect.value;
+          var email = document.getElementById("f-email").value.trim();
+          var tx = document.getElementById("f-tx").value.trim();
+          return { coin: coin, email: email, tx: tx };
+        }
+        function validate(d) {
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return "Enter a valid delivery email.";
+          if (d.tx.length < 8) return "Paste your transaction hash so we can verify the payment.";
+          return "";
+        }
+        function orderText(d) {
+          return "Product: GENESIS Prompt Vault — Creator Edition ($29)\n" +
+                 "Currency paid: " + d.coin + "\n" +
+                 "Transaction hash: " + d.tx + "\n" +
+                 "Delivery email: " + d.email + "\n\n" +
+                 "Please send the Vault ZIP and SHA256 manifest to the delivery email above.";
+        }
+        form.addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          var d = orderDetails();
+          var problem = validate(d);
+          if (problem) { err.textContent = problem; err.classList.add("show"); return; }
+          err.classList.remove("show");
+          var subject = "Prompt Vault order — paid in " + d.coin;
+          var a = document.createElement("a");
+          a.href = "mailto:" + ORDERS_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(orderText(d));
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        });
+        document.getElementById("copy-order").addEventListener("click", function () {
+          var d = orderDetails();
+          var problem = validate(d);
+          if (problem) { err.textContent = problem; err.classList.add("show"); return; }
+          err.classList.remove("show");
+          var text = "To: " + ORDERS_EMAIL + "\nSubject: Prompt Vault order — paid in " + d.coin + "\n\n" + orderText(d);
+          var btn = this;
+          function done() {
+            var old = btn.textContent;
+            btn.textContent = "Copied ✓ — paste it into any email";
+            setTimeout(function () { btn.textContent = old; }, 2400);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function () {});
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
